@@ -1,4 +1,13 @@
-FROM python:3.8
-RUN pip3 install uvicorn fastapi asyncio
-COPY . .
-CMD ["uvicorn", "script2:app", "--host", "0.0.0.0", "--port", "1116"]
+FROM python:3.7.1
+
+RUN set -ex && mkdir /app
+RUN pip3 install pipenv
+
+WORKDIR /app
+
+EXPOSE 1116
+
+COPY . /app/
+RUN pipenv run pip install -r requirements.txt
+
+CMD pipenv run python main.py

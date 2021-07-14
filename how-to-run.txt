@@ -1,0 +1,20 @@
+1- run Vault locally
+run: vault server -dev
+
+2- set environment variables
+run: export VAULT_ADDR='http://127.0.0.1:8200'
+run: export VAULT_TOKEN="s.rt2hBodMhtmKDvWrx4icKm93"   # replace the token with the one you have on vault logs when you run the server
+
+2- Download the policy and write it to vault server
+run: curl https://nomadproject.io/data/vault/nomad-server-policy.hcl -O -s -L
+run: vault policy write nomad-server nomad-server-policy.hcl
+
+3- Download the token role and write it to vault server
+run: curl https://nomadproject.io/data/vault/nomad-cluster-role.json -O -s -L
+run: vault write /auth/token/roles/nomad-cluster @nomad-cluster-role.json
+
+4- go to localhost:8200 and add a secret called 'mysecret', and put password attribute in it with some value
+
+5- copy deploy.nomad contents and run a new job on nomad (localhost:4646)
+
+6- to verify, go to localhost:1115
